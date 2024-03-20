@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liusheng.mapper.MessageMapper">
+
+    <resultMap id="BaseResultMap" type="com.liusheng.model.Message">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="outboundTime" column="outbound_time" jdbcType="TIMESTAMP"/>
+            <result property="messageBody" column="message_body" jdbcType="VARCHAR"/>
+            <result property="isRead" column="is_read" jdbcType="TINYINT"/>
+            <result property="pushTime" column="push_time" jdbcType="TIMESTAMP"/>
+            <result property="ledgerId" column="ledger_id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,outbound_time,message_body,
+        is_read,push_time,ledger_id,
+        user_id
+    </sql>
+    <select id="getUnreadMessage" resultType="com.liusheng.model.Message">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        <where>
+            and is_read = 0
+            and TIMESTAMPDIFF(HOUR, push_time, now()) > 3
+            and 6 > TIMESTAMPDIFF(HOUR, push_time, now())
+            and is_deleted = 0
+        </where>
+    </select>
+</mapper>
