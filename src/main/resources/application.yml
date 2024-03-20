@@ -1,7 +1,7 @@
 spring:
   datasource:
     username: root
-    password: 357932511
+    password: xxx
     url: jdbc:mysql://localhost:3306/zlcz_test?useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
 
